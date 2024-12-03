@@ -1,10 +1,20 @@
 "use client"
 
-import { QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import {
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query"
 import { HTTPException } from "hono/http-exception"
 import { PropsWithChildren, useState } from "react"
+import { ThemeProvider as NextThemesProvider } from "next-themes"
+import { type ThemeProviderProps } from "next-themes"
 
-export const Providers = ({ children }: PropsWithChildren) => {
+interface ProviderProps extends PropsWithChildren {
+  themeProps?: ThemeProviderProps
+}
+
+export const Providers = ({ children, themeProps }: ProviderProps) => {
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -25,5 +35,9 @@ export const Providers = ({ children }: PropsWithChildren) => {
       })
   )
 
-  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  return (
+    <NextThemesProvider {...themeProps}>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </NextThemesProvider>
+  )
 }
