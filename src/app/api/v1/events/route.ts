@@ -75,9 +75,11 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
 
     const quota = await db.quota.findUnique({
       where: {
-        userId: user.id,
-        month: currentMonth,
-        year: currentYear,
+        userId_month_year: {
+          userId: user.id,
+          month: currentMonth,
+          year: currentYear,
+        },
       },
     })
 
