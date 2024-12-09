@@ -46,6 +46,16 @@ const Navbar = async () => {
             ) : (
               <>
                 <Link
+                  href={"/pricing"}
+                  className={buttonVariants({
+                    size: "sm",
+                    variant: "ghost",
+                    className: "flex gap-2 ",
+                  })}
+                >
+                  Pricing
+                </Link>
+                <Link
                   href={"/sign-up"}
                   className={buttonVariants({
                     size: "sm",
