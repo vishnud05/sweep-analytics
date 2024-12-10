@@ -104,5 +104,5 @@ const Page = () => {
     </div>
   )
 }
-
+export const runtime = "edge"
 export default Page

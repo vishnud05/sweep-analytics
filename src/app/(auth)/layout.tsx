@@ -9,5 +9,5 @@ const Layout = ({ children }: { children: ReactNode }) => {
     </>
   )
 }
-
+export const runtime = "edge"
 export default Layout

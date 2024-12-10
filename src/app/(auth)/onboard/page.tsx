@@ -8,11 +8,10 @@ import { LucideProps } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
-
 const Page = () => {
   const router = useRouter()
   const [timeoutReached, setTimeoutReached] = useState(false)
-  const {data} = useQuery({
+  const { data } = useQuery({
     queryFn: async () => {
       const res = await client.auth.getDatabaseSyncStatus.$get()
       return await res.json()
@@ -21,7 +20,6 @@ const Page = () => {
     refetchInterval: (query) => {
       return query.state.data?.isSynced ? false : 1000
     },
-    
   })
 
   useEffect(() => {
@@ -36,7 +34,7 @@ const Page = () => {
       router.push("/error")
     }
 
-    if(data?.isSynced){
+    if (data?.isSynced) {
       router.push("/dashboard")
     }
   }, [data, router, timeoutReached])
@@ -154,4 +152,5 @@ const Background = (props: LucideProps) => {
     </svg>
   )
 }
+export const runtime = "edge"
 export default Page
