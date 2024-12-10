@@ -80,7 +80,6 @@ const CreateEventCategoryModal = ({
         const response = await client.category.createEventCategory.$post(
           category
         )
-        return await response.json()
       },
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["user-event-category"] })
