@@ -16,6 +16,9 @@
 # production
 /build
 
+/.wrangler/
+/.worker-next/
+
 # misc
 .DS_Store
 *.pem

@@ -7,7 +7,7 @@ import { UserButton } from "@clerk/nextjs"
 import { Gem, Home, Key, LucideIcon, Menu, Settings, X } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { PropsWithChildren, useState } from "react"
+import { PropsWithChildren, Suspense, useState } from "react"
 
 interface SidebarItem {
   href: string
@@ -124,7 +124,7 @@ const Layout = ({ children }: PropsWithChildren) => {
         <div className="flex-1 overflow-y-auto  shadow-md p-4 md:p-6 relative z-10">
           <div className="relative min-h-full flex flex-col">
             <div className="h-full flex flex-col flex-1 space-y-4">
-              {children}
+              <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
             </div>
           </div>
         </div>

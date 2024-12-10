@@ -5,9 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:worker": "cloudflare",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "wrangler deploy",
+    "deploy:worker": "npm run build:worker && wrangler deploy",
     "postinstall": "prisma generate"
   },
   "dependencies": {
@@ -48,6 +49,7 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240815.0",
+    "@opennextjs/cloudflare": "^0.2.1",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
