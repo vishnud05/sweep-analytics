@@ -25,4 +25,5 @@ const Page = ({ params }: PageProps) => {
     </Suspense>
   )
 }
+export const runtime = "edge"
 export default Page

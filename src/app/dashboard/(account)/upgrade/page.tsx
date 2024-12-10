@@ -24,4 +24,5 @@ const page = async () => {
     </DashboardPage>
   )
 }
+export const runtime = "edge"
 export default page
