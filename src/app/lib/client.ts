@@ -1,7 +1,9 @@
 import { AppType } from "@/server"
+import { useAuth } from "@clerk/nextjs"
 import { hc } from "hono/client"
 import { HTTPException } from "hono/http-exception"
 import { StatusCode } from "hono/utils/http-status"
+
 import superjson from "superjson"
 
 const getBaseUrl = () => {
@@ -21,12 +23,20 @@ const getBaseUrl = () => {
 
   // assume deployment to cloudflare workers otherwise, you'll get this URL after running
   // `npm run deploy`, which deploys your server to cloudflare
-  return "https://<YOUR_DEPLOYED_WORKER_URL>/"
+  return "https://sweep-analytics.pages.dev/"
 }
 
 export const baseClient = hc<AppType>(getBaseUrl(), {
   fetch: async (input: RequestInfo | URL, init?: RequestInit) => {
-    const response = await fetch(input, { ...init, cache: "no-store" })
+    const { getToken } = useAuth()
+
+    const response = await fetch(input, {
+      ...init,
+      cache: "no-store",
+      headers: {
+        Authorization: `Bearer ${await getToken()}`,
+      },
+    })
 
     if (!response.ok) {
       throw new HTTPException(response.status as StatusCode, {
