@@ -1,5 +1,6 @@
 "use client"
 
+import LoadingSpinner from "@/components/loading"
 import { buttonVariants } from "@/components/ui/button"
 import { Modal } from "@/components/ui/modal"
 import { cn } from "@/lib/utils"
@@ -124,7 +125,15 @@ const Layout = ({ children }: PropsWithChildren) => {
         <div className="flex-1 overflow-y-auto  shadow-md p-4 md:p-6 relative z-10">
           <div className="relative min-h-full flex flex-col">
             <div className="h-full flex flex-col flex-1 space-y-4">
-              <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+              <Suspense
+                fallback={
+                  <div>
+                    <LoadingSpinner size={"lg"} />
+                  </div>
+                }
+              >
+                {children}
+              </Suspense>
             </div>
           </div>
         </div>
