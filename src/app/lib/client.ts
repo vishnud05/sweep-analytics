@@ -1,9 +1,7 @@
 import { AppType } from "@/server"
-import { useAuth } from "@clerk/nextjs"
 import { hc } from "hono/client"
 import { HTTPException } from "hono/http-exception"
 import { StatusCode } from "hono/utils/http-status"
-
 import superjson from "superjson"
 
 const getBaseUrl = () => {
@@ -28,15 +26,7 @@ const getBaseUrl = () => {
 
 export const baseClient = hc<AppType>(getBaseUrl(), {
   fetch: async (input: RequestInfo | URL, init?: RequestInit) => {
-    const { getToken } = useAuth()
-
-    const response = await fetch(input, {
-      ...init,
-      cache: "no-store",
-      headers: {
-        Authorization: `Bearer ${await getToken()}`,
-      },
-    })
+    const response = await fetch(input, { ...init, cache: "no-store" })
 
     if (!response.ok) {
       throw new HTTPException(response.status as StatusCode, {
