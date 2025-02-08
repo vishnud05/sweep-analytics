@@ -21,7 +21,7 @@ const getBaseUrl = () => {
 
   // assume deployment to cloudflare workers otherwise, you'll get this URL after running
   // `npm run deploy`, which deploys your server to cloudflare
-  return "https://sweep-analytics.pages.dev/"
+  return "https://fix-db-error.sweep-analytics.pages.dev/"
 }
 
 export const baseClient = hc<AppType>(getBaseUrl(), {
