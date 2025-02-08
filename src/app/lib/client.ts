@@ -81,6 +81,7 @@ function serializeWithSuperJSON(data: any): any {
  * instead of using nested objects as hono does by default
  */
 function createProxy(target: any, path: string[] = []): any {
+  console.log("createProxy-start")
   return new Proxy(target, {
     get(target, prop, receiver) {
       if (typeof prop === "string") {
@@ -101,7 +102,7 @@ function createProxy(target: any, path: string[] = []): any {
             return executor({ json: serializedJson })
           }
         }
-
+        console.log("createProxy-end")
         return createProxy(target[prop], newPath)
       }
       return Reflect.get(target, prop, receiver)

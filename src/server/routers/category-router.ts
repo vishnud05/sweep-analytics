@@ -9,6 +9,8 @@ import { HTTPException } from "hono/http-exception"
 
 const categoryRouter = router({
   getEventCategories: privateProcedure.query(async ({ c, ctx }) => {
+    console.log("getEventCategories-start")
+
     const { user } = ctx
 
     const categories = await db.eventCategory.findMany({
@@ -69,7 +71,7 @@ const categoryRouter = router({
         }
       })
     )
-
+    console.log("getEventCategories-end")
     return c.superjson({ categories: countEventCategories })
   }),
 
