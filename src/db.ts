@@ -8,14 +8,23 @@ declare global {
 }
 
 let prisma: PrismaClient
+
+// Edge runtime specific configuration
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  connectionTimeoutMillis: 5000, // Add timeout
+  ssl: true, // Enable SSL for production
+})
+
+const adapter = new PrismaNeon(pool)
+
 if (process.env.NODE_ENV === "production") {
-  const pool = new Pool({ connectionString: process.env.DATABASE_URL })
-  const adapter = new PrismaNeon(pool)
-  prisma = new PrismaClient({ adapter })
+  prisma = new PrismaClient({
+    adapter,
+    log: ["error"], // Add logging for debugging
+  })
 } else {
   if (!global.cachedPrisma) {
-    const pool = new Pool({ connectionString: process.env.DATABASE_URL })
-    const adapter = new PrismaNeon(pool)
     global.cachedPrisma = new PrismaClient({ adapter })
   }
   prisma = global.cachedPrisma

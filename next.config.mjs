@@ -1,6 +1,4 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  crossOrigin: "use-credentials",
-}
+const nextConfig = {}
 
 export default nextConfig

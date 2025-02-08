@@ -1,4 +1,0 @@
-name = "sweep"
-main = "src/server/index.ts"
-compatibility_date = "2024-12-09"
-compatibility_flags = ["nodejs_compat_v2"]

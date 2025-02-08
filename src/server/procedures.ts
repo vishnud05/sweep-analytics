@@ -1,13 +1,11 @@
+import { db } from "@/db"
+import { currentUser } from "@clerk/nextjs/server"
 import { Pool } from "@neondatabase/serverless"
 import { PrismaNeon } from "@prisma/adapter-neon"
 import { PrismaClient } from "@prisma/client"
-import { Redis } from "@upstash/redis/cloudflare"
 import { env } from "hono/adapter"
-import { cacheExtension } from "./__internals/db/cache-extension"
-import { j } from "./__internals/j"
 import { HTTPException } from "hono/http-exception"
-import { db } from "@/db"
-import { currentUser } from "@clerk/nextjs/server"
+import { j } from "./__internals/j"
 
 /**
  * Middleware for providing a built-in cache with your Prisma database.
@@ -18,23 +16,23 @@ import { currentUser } from "@clerk/nextjs/server"
 const extendedDatabaseMiddleware = j.middleware(async ({ c, next }) => {
   const variables = env(c)
 
-  const pool = new Pool({
-    connectionString: variables.DATABASE_URL,
-  })
+  try {
+    const pool = new Pool({
+      connectionString: variables.DATABASE_URL,
+      ssl: true,
+    })
 
-  const adapter = new PrismaNeon(pool)
+    const adapter = new PrismaNeon(pool)
+    const db = new PrismaClient({ adapter })
 
-  // const redis = new Redis({
-  //   token: variables.REDIS_TOKEN,
-  //   url: variables.REDIS_URL,
-  // })
+    // Test connection
+    await db.$connect()
 
-  const db = new PrismaClient({
-    adapter,
-  })
-
-  // Whatever you put inside of `next` is accessible to all following middlewares
-  return await next({ db })
+    return await next({ db })
+  } catch (error) {
+    console.error("Database connection error:", error)
+    throw error
+  }
 })
 
 const authMiddleware = j.middleware(async ({ c, next }) => {
